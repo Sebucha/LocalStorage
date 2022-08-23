@@ -1,5 +1,4 @@
 let myTable = document.getElementById("myTable");
-const check = document.querySelectorAll(".check");
 let secondTable = document.querySelector(".secondTable");
 
 let myArr = [
