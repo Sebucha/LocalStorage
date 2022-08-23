@@ -1,4 +1,3 @@
-let myTable = document.getElementById("myTable");
 let secondTable = document.querySelector(".secondTable");
 
 let myArr = [
@@ -33,7 +32,7 @@ let myArr = [
 	{
 		id: 5,
 		name: "Wiktoria",
-		uId: 1111,
+		uId: 11111,
 		age: 25,
 		sex: "Woman",
 	},
@@ -75,6 +74,7 @@ const createRow = (id, name, uid, age, sex, isDeletable = false) => {
 	function deleteRow() {
 		let row = document.getElementById(id);
 		table.removeChild(row);
+		console.log(window.localStorage.removeItem("APIdata"));
 	}
 
 	if (isDeletable) {
@@ -98,8 +98,6 @@ let dataRows = JSON.parse(window.localStorage.getItem("APIdata")).map(
 		return createRow(id, name, uId, age, sex, true);
 	}
 );
-
-console.log(dataRows);
 
 dataRows.forEach(row => {
 	table.appendChild(row);
