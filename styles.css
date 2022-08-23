@@ -1,0 +1,18 @@
+input {
+	padding: 7 px;
+	float: right;
+}
+
+button {
+	padding: 5px;
+	margin-left: 2px;
+	margin-top: 20px;
+}
+table {
+	text-align: center;
+	justify-content: center;
+}
+label {
+	display: block;
+}
+
