@@ -16,3 +16,23 @@ label {
 	display: block;
 }
 
+#dataTable {
+  width: 80%;
+  margin: 0 auto;
+}
+
+#dataTable thead tr{
+  font-weight: bold;
+}
+
+.table-row button {
+  margin: 0;
+  padding: .2em;
+  border: 1px dotted lightcoral;
+  border-radius: 50%;
+  height: 28px;
+  width: 28px;
+  background: none;
+  color: rgb(255 0 0);
+  cursor: pointer;
+}
