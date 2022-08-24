@@ -1,19 +1,21 @@
 input {
-	padding: 7 px;
-	float: right;
+  padding: 7 px;
+  float: right;
 }
 
 button {
-	padding: 5px;
-	margin-left: 2px;
-	margin-top: 20px;
+  padding: 5px;
+  margin-left: 2px;
+  margin-top: 20px;
 }
+
 table {
-	text-align: center;
-	justify-content: center;
+  text-align: center;
+  justify-content: center;
 }
+
 label {
-	display: block;
+  display: block;
 }
 
 #dataTable {
@@ -21,7 +23,7 @@ label {
   margin: 0 auto;
 }
 
-#dataTable thead tr{
+#dataTable thead tr {
   font-weight: bold;
 }
 
