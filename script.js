@@ -1,104 +1,65 @@
-let secondTable = document.querySelector(".secondTable");
+import db, { getAdults } from "./db.js";
 
-let myArr = [
-	{
-		id: 1,
-		name: "Mateusz",
-		uId: 10928,
-		age: 22,
-		sex: "Man",
-	},
-	{
-		id: 2,
-		name: "Krystian",
-		uId: 90383,
-		age: 30,
-		sex: "Man",
-	},
-	{
-		id: 3,
-		name: "Eliza",
-		uId: 56763,
-		age: 56,
-		sex: "Woman",
-	},
-	{
-		id: 4,
-		name: "Sebastian",
-		uId: 47433,
-		age: 18,
-		sex: "Man",
-	},
-	{
-		id: 5,
-		name: "Wiktoria",
-		uId: 11111,
-		age: 25,
-		sex: "Woman",
-	},
-];
-
-window.localStorage.setItem("APIdata", JSON.stringify(myArr));
-
-// secondTable.innerHTML = newArr;
-
-let table = document.createElement("table");
+let dataTable = document.getElementById("dataTable");
 let thead = document.createElement("thead");
 let tbody = document.createElement("tbody");
 
-table.appendChild(thead);
-table.appendChild(tbody);
+// Create a getter and setter that allows for setting the data state
+const setData = (data) => window.localStorage.setItem("APIdata", JSON.stringify(data));
+const getData = (key) => JSON.parse(window.localStorage.getItem(key))
 
-document.getElementById("secondTable").appendChild(table);
+setData(db)
+// Example of hot to use exported functions
+console.log({ adults: getAdults() })
 
-const createRow = (id, name, uid, age, sex, isDeletable = false) => {
-	let row = document.createElement("tr");
-	row.setAttribute("id", id);
+const createRow = ({ id, name, uId, age, sex, isDeletable = false }) => {
+  let row = document.createElement("tr");
+  row.setAttribute("id", id);
+  row.className = "table-row";
 
-	let idCell = document.createElement("td");
-	let nameCell = document.createElement("td");
-	let uidCell = document.createElement("td");
-	let ageCell = document.createElement("td");
-	let sexCell = document.createElement("td");
+  let idCell = document.createElement("td");
+  let nameCell = document.createElement("td");
+  let uidCell = document.createElement("td");
+  let ageCell = document.createElement("td");
+  let sexCell = document.createElement("td");
 
-	idCell.innerHTML = id;
-	nameCell.innerHTML = name;
-	uidCell.innerHTML = uid;
-	ageCell.innerHTML = age;
-	sexCell.innerHTML = sex;
+  idCell.innerHTML = id;
+  nameCell.innerHTML = name;
+  uidCell.innerHTML = uId;
+  ageCell.innerHTML = age;
+  sexCell.innerHTML = sex;
 
-	[idCell, nameCell, uidCell, ageCell, sexCell].forEach(element => {
-		row.appendChild(element);
-	});
+  [idCell, nameCell, uidCell, ageCell, sexCell].forEach(element => {
+    row.appendChild(element);
+  });
 
-	function deleteRow() {
-		let row = document.getElementById(id);
-		table.removeChild(row);
-		console.log(window.localStorage.removeItem("APIdata"));
-	}
+  if (isDeletable) {
+    // DeleteRow doesn't neet to exist in the upper scope
+    function deleteRow() {
+      let row = document.getElementById(id);
+      tbody.removeChild(row);
+    }
 
-	if (isDeletable) {
-		let deleteButton = document.createElement("button");
-		deleteButton.addEventListener("click", deleteRow);
-		deleteButton.innerHTML = "delete";
-		row.appendChild(deleteButton);
-	}
+    let deleteButton = document.createElement("button");
+    deleteButton.addEventListener("click", deleteRow);
+    deleteButton.innerHTML = "x";
+    row.appendChild(deleteButton);
+  }
 
-	return row;
+  return row;
 };
 
-let tableHeading = createRow("ID", "Name", "User ID", "Age", "Sex");
+const createTableInnerElements = () => {
+  thead.append(createRow({ id: "ID", name: "Name", uId: "User ID", age: "Age", sex: "Sex" }));
 
-table.appendChild(tableHeading);
+  getData("APIdata").map(
+    element => createRow({ ...element, isDeletable: true })
+  ).forEach(row => {
+    tbody.appendChild(row)
+  })
 
-let dataRows = JSON.parse(window.localStorage.getItem("APIdata")).map(
-	element => {
-		const { id, name, uId, age, sex } = element;
+  dataTable.appendChild(thead);
+  dataTable.appendChild(tbody);
+}
 
-		return createRow(id, name, uId, age, sex, true);
-	}
-);
-
-dataRows.forEach(row => {
-	table.appendChild(row);
-});
+createTableInnerElements()
