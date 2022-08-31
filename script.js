@@ -14,7 +14,39 @@ setData(db);
 // Global flag for loading state to be represented in HTML
 let isLoading = false;
 const loader = document.createElement("div");
+
 document.body.appendChild(loader);
+loader.setAttribute("id", "value");
+
+function Visibility() {
+	this.loader = [];
+}
+Visibility.prototype = {
+	subscribe: function (visibleX) {
+		this.loader.push(visibleX);
+	},
+	//unsubscribe: function (unVisibleX) {
+	//	this.loader = this.loader.filter(visibleX => {
+	//		if (vivisbleX !== unVisibleX) return visibleX;
+	//	});
+	//},
+	run: function () {
+		this.loader.forEach(visibleX => {
+			visibleX.call();
+		});
+	},
+};
+
+const visible = new Visibility();
+
+function Observer1() {
+	if (!isLoading) {
+		document.getElementById("value").innerHTML = "działa";
+	}
+}
+
+visible.subscribe(Observer1);
+visible.run();
 
 // Example of how to use exported functions
 const fetchData = async () => {
