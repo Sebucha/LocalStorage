@@ -38,6 +38,13 @@ let db = [
 
 const ADULTHOOD_AGE = 18;
 
-export const getAdults = () => db.filter(person => person.age > ADULTHOOD_AGE);
+export const getAdults = () => {
+	return new Promise((resolve, reject) => {
+		setTimeout(() => {
+			resolve(db.filter(person => person.age > ADULTHOOD_AGE));
+			//reject(404);
+		},2000);
+	});
+};
 
 export default db;

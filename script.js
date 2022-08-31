@@ -11,8 +11,38 @@ const getData = key => JSON.parse(window.localStorage.getItem(key));
 
 setData(db);
 // Example of hot to use exported functions
-console.log({ adults: getAdults() });
+//console.log({ adults: getAdults() });
+let isLoading = false;
+const fetchData = async () => {
+	try {
+		isLoading = true;
+		const response = await getAdults();
+		console.log(response);
+	} catch (error) {
+		console.error(error);
+	} finally {
+		isLoading = false;
+	}
 
+	/*getAdults()
+		.then(response => {
+			console.log(response);
+		})
+		.catch(e => {
+			console.error(e);
+		})
+		.finally(() => {
+			console.log(isLoading);
+			isLoading = false;
+		});*/
+
+	console.log(isLoading);
+};
+
+const loader = document.createElement("div");
+document.body.appendChild(loader);
+fetchData();
+//design patterns - wzorce projektowe js
 const createRow = ({ id, name, uId, age, sex, isDeletable = false }) => {
 	let row = document.createElement("tr");
 	row.setAttribute("id", id);
@@ -39,6 +69,8 @@ const createRow = ({ id, name, uId, age, sex, isDeletable = false }) => {
 		function deleteRow() {
 			let row = document.getElementById(id);
 			tbody.removeChild(row);
+			localStorage.removeItem(id);
+			//	localStorage.clear();
 		}
 
 		let deleteButton = document.createElement("button");
