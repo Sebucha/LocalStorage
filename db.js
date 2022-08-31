@@ -48,3 +48,4 @@ export const getAdults = () => {
 };
 
 export default db;
+

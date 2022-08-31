@@ -10,9 +10,13 @@ const setData = data =>
 const getData = key => JSON.parse(window.localStorage.getItem(key));
 
 setData(db);
-// Example of hot to use exported functions
-//console.log({ adults: getAdults() });
+
+// Global flag for loading state to be represented in HTML
 let isLoading = false;
+const loader = document.createElement("div");
+document.body.appendChild(loader);
+
+// Example of how to use exported functions
 const fetchData = async () => {
 	try {
 		isLoading = true;
@@ -39,9 +43,8 @@ const fetchData = async () => {
 	console.log(isLoading);
 };
 
-const loader = document.createElement("div");
-document.body.appendChild(loader);
 fetchData();
+
 //design patterns - wzorce projektowe js
 const createRow = ({ id, name, uId, age, sex, isDeletable = false }) => {
 	let row = document.createElement("tr");
