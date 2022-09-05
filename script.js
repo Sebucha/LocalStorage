@@ -1,4 +1,5 @@
 import db, { getAdults } from "./db.js";
+//import "./observer.js";
 
 let dataTable = document.getElementById("dataTable");
 let thead = document.createElement("thead");
@@ -14,9 +15,14 @@ setData(db);
 // Global flag for loading state to be represented in HTML
 let isLoading = false;
 const loader = document.createElement("div");
+const observerBtn = document.createElement("button");
 
+loader.appendChild(observerBtn);
 document.body.appendChild(loader);
 loader.setAttribute("id", "value");
+observerBtn.setAttribute("id", "something");
+
+document.getElementById("something").innerHTML = "push me";
 
 function Visibility() {
 	this.loader = [];
@@ -25,11 +31,11 @@ Visibility.prototype = {
 	subscribe: function (visibleX) {
 		this.loader.push(visibleX);
 	},
-	//unsubscribe: function (unVisibleX) {
-	//	this.loader = this.loader.filter(visibleX => {
-	//		if (vivisbleX !== unVisibleX) return visibleX;
-	//	});
-	//},
+	unsubscribe: function (unVisibleX) {
+		this.loader = this.loader.filter(visibleX => {
+			if (visibleX !== unVisibleX) return visibleX;
+		});
+	},
 	run: function () {
 		this.loader.forEach(visibleX => {
 			visibleX.call();
@@ -40,9 +46,13 @@ Visibility.prototype = {
 const visible = new Visibility();
 
 function Observer1() {
-	if (!isLoading) {
-		document.getElementById("value").innerHTML = "działa";
+	if (isLoading) {
+		observerBtn.classList.add("active");
 	}
+	observerBtn.addEventListener("click", function (state) {
+		state = this.isLoading;
+		state = true;
+	});
 }
 
 visible.subscribe(Observer1);
