@@ -1,5 +1,6 @@
 import db, { getAdults } from "./db.js";
-//import "./observer.js";
+
+// import observable from "./newObserver"
 
 let dataTable = document.getElementById("dataTable");
 let thead = document.createElement("thead");
@@ -14,49 +15,40 @@ setData(db);
 
 // Global flag for loading state to be represented in HTML
 let isLoading = false;
-const loader = document.createElement("div");
-const observerBtn = document.createElement("button");
+// const loader = document.createElement("div");
+// const observerBtn = document.createElement("button");
+// loader.appendChild(observerBtn);
+// document.body.appendChild(loader);
+// loader.setAttribute("id", "value");
+// observerBtn.setAttribute("id", "something");
 
-loader.appendChild(observerBtn);
-document.body.appendChild(loader);
-loader.setAttribute("id", "value");
-observerBtn.setAttribute("id", "something");
+// document.getElementById("something").innerHTML = "push me";
 
-document.getElementById("something").innerHTML = "push me";
-
-function Visibility() {
-	this.loader = [];
+function Subject() {
+	this.observers = []; //array of obsrvers functions
 }
-Visibility.prototype = {
-	subscribe: function (visibleX) {
-		this.loader.push(visibleX);
+
+Subject.prototype = {
+	subscribe: function (fn) {
+		this.observers.push(fn);
 	},
-	unsubscribe: function (unVisibleX) {
-		this.loader = this.loader.filter(visibleX => {
-			if (visibleX !== unVisibleX) return visibleX;
+	unsubsribe: function (fnToRemove) {
+		this.observers = this.observers.filter(e => {
+			e != fnToRemove ? e : fnToRemove;
 		});
 	},
-	run: function () {
-		this.loader.forEach(visibleX => {
-			visibleX.call();
+	fire: function () {
+		this.observers.forEach(element => {
+			element.call();
 		});
 	},
 };
 
-const visible = new Visibility();
+const subject = new Subject();
 
-function Observer1() {
-	if (isLoading) {
-		observerBtn.classList.add("active");
-	}
-	observerBtn.addEventListener("click", function (state) {
-		state = this.isLoading;
-		state = true;
-	});
-}
-
-visible.subscribe(Observer1);
-visible.run();
+function Observer1() {}
+subject.subscribe(Observer1);
+subject.fire();
 
 // Example of how to use exported functions
 const fetchData = async () => {
@@ -87,7 +79,6 @@ const fetchData = async () => {
 
 fetchData();
 
-//design patterns - wzorce projektowe js
 const createRow = ({ id, name, uId, age, sex, isDeletable = false }) => {
 	let row = document.createElement("tr");
 	row.setAttribute("id", id);
@@ -115,7 +106,6 @@ const createRow = ({ id, name, uId, age, sex, isDeletable = false }) => {
 			let row = document.getElementById(id);
 			tbody.removeChild(row);
 			localStorage.removeItem(id);
-			//	localStorage.clear();
 		}
 
 		let deleteButton = document.createElement("button");
@@ -149,3 +139,56 @@ const createTableInnerElements = () => {
 };
 
 createTableInnerElements();
+
+//CREATING FORMS
+
+const forms = document.createElement("div");
+const submitInput = document.createElement("input");
+document.body.appendChild(forms);
+forms.appendChild(submitInput);
+forms.setAttribute("class", "forms");
+
+submitInput.setAttribute("type", "submit");
+// submitInput.setAttribute("class", "submitData");
+submitInput.setAttribute("value", "Send Data");
+submitInput.setAttribute("name", "name");
+
+const newName = document.createElement("input");
+forms.appendChild(newName);
+newName.setAttribute("placeholder", "Name...");
+newName.setAttribute("class", "newForm");
+
+const newUserID = document.createElement("input");
+forms.appendChild(newUserID);
+newUserID.setAttribute("placeholder", "UserID...");
+newUserID.setAttribute("class", "newForm");
+
+const newAge = document.createElement("input");
+forms.appendChild(newAge);
+newAge.setAttribute("placeholder", "Age...");
+newAge.setAttribute("class", "newForm");
+
+const man = document.createElement("input");
+forms.appendChild(man);
+man.setAttribute("type", "radio");
+
+const woman = document.createElement("input");
+forms.appendChild(woman);
+woman.setAttribute("type", "radio");
+
+const sendData = () => {
+	const newObj = db.push({
+		name: newName.value,
+		uId: parseInt(newUserID.value),
+		age: parseInt(newAge.value),
+	});
+	// db.push({ sex: newSex.value });
+	newName.value = "";
+	newUserID.value = "";
+	newAge.value = "";
+	localStorage.getItem(newObj);
+
+	console.log(db);
+};
+submitInput.addEventListener("click", sendData);
+console.log(db);

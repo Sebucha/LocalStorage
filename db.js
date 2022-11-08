@@ -43,9 +43,8 @@ export const getAdults = () => {
 		setTimeout(() => {
 			resolve(db.filter(person => person.age > ADULTHOOD_AGE));
 			//reject(404);
-		},2000);
+		}, 2000);
 	});
 };
 
 export default db;
-

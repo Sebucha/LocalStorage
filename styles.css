@@ -1,12 +1,17 @@
 #dataTable {
 	width: 80%;
 	margin: 0 auto;
+	border: 3px solid black;
+	padding: 1em 0;
+	border-radius: 5px;
 }
 
 #dataTable thead tr {
 	font-weight: bold;
 }
-
+#dataTable td {
+	padding-top: 10px;
+}
 .table-row button {
 	margin: 0;
 	padding: 0.2em;
@@ -16,6 +21,17 @@
 	width: 28px;
 	background: none;
 	color: rgb(255 0 0);
+	cursor: pointer;
+}
+.table-row button:hover {
+	margin: 0;
+	padding: 0.2em;
+	border: 1px dotted white;
+	border-radius: 50%;
+	height: 28px;
+	width: 28px;
+	background: lightcoral;
+	color: white;
 	cursor: pointer;
 }
 
@@ -61,8 +77,6 @@ label {
 }
 
 .active {
-	justify-content: center;
-	text-align: center;
 	border-radius: 10px;
 	background-color: rgb(253, 233, 16);
 	color: rgb(255, 255, 255);
@@ -72,11 +86,35 @@ label {
 #something {
 	justify-content: center;
 	text-align: center;
-	padding: 1em;
-	margin: 1em;
+	padding: 0.1em;
+	margin: 0.1em;
 	border-radius: 10px;
 	border: none;
 	background-color: rgb(28, 118, 192);
 	text-transform: uppercase;
 	cursor: pointer;
+}
+#value {
+	justify-content: center;
+	text-align: center;
+}
+
+.forms {
+	display: flex;
+	flex-direction: column;
+	height: auto;
+	justify-content: start;
+	text-align: center;
+	align-items: center;
+	width: 100%;
+	padding: 1em;
+}
+.newForm {
+	margin: 5px;
+	padding: 5px;
+}
+.error {
+	border: 1px solid red;
+	background-color: rgb(221, 143, 143);
+	color: white;
 }
