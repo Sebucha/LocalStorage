@@ -173,13 +173,37 @@ box3.appendChild(newAge);
 newAge.setAttribute("placeholder", "Age...");
 newAge.setAttribute("class", "newForm");
 
+const box4 = document.createElement("div");
+box4.setAttribute("class", "box");
+formsBox.appendChild(box4);
+const textBoxSex = document.createElement("p");
+textBoxSex.innerHTML = "Sex:";
+box4.appendChild(textBoxSex);
+
+const box5 = document.createElement("div");
+box5.setAttribute("class", "box");
+formsBox.appendChild(box5);
+const textBoxMan = document.createElement("p");
+textBoxMan.innerHTML = "Man:";
+box5.appendChild(textBoxMan);
 const man = document.createElement("input");
 formsBox.appendChild(man);
 man.setAttribute("type", "radio");
+man.setAttribute("value", "Man");
+man.setAttribute("class", "newForm");
 
 const woman = document.createElement("input");
 formsBox.appendChild(woman);
 woman.setAttribute("type", "radio");
+woman.setAttribute("value", "Woman");
+
+function checkSex() {
+	if (man.checked) {
+		return man.value;
+	} else if (woman.checked) {
+		return woman.value;
+	}
+}
 
 function newID() {
 	const newID = db.length + 1;
@@ -188,12 +212,14 @@ function newID() {
 newID();
 
 const sendData = () => {
+	tbody.innerHTML = "";
 	if (newName.value.length >= 3) {
 		const newObj = db.push({
 			id: newID(),
 			name: newName.value,
 			uId: parseInt(newUserID.value),
 			age: parseInt(newAge.value),
+			sex: checkSex(),
 		});
 	} else {
 		alert("Man, newName is too short.");
@@ -204,6 +230,12 @@ const sendData = () => {
 	newAge.value = "";
 
 	console.log(db);
+	setData(db);
+	getData("APIdata")
+		.map(element => createRow({ ...element, isDeletable: true }))
+		.forEach(row => {
+			tbody.appendChild(row);
+		});
 };
 
 submitInput.addEventListener("click", sendData);
