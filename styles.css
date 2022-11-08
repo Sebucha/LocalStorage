@@ -118,3 +118,14 @@ label {
 	background-color: rgb(221, 143, 143);
 	color: white;
 }
+
+.box {
+	display: flex;
+}
+
+.formsBox {
+	position: relative;
+	display: flex;
+	flex-direction: column;
+	margin: auto;
+}

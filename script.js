@@ -15,15 +15,6 @@ setData(db);
 
 // Global flag for loading state to be represented in HTML
 let isLoading = false;
-// const loader = document.createElement("div");
-// const observerBtn = document.createElement("button");
-// loader.appendChild(observerBtn);
-// document.body.appendChild(loader);
-// loader.setAttribute("id", "value");
-// observerBtn.setAttribute("id", "something");
-
-// document.getElementById("something").innerHTML = "push me";
-
 function Subject() {
 	this.observers = []; //array of obsrvers functions
 }
@@ -144,6 +135,80 @@ createTableInnerElements();
 
 const forms = document.createElement("div");
 const submitInput = document.createElement("input");
+
+const formsBox = document.createElement("div");
+forms.appendChild(formsBox);
+formsBox.setAttribute("class", "formsBox");
+
+const box1 = document.createElement("div");
+box1.setAttribute("class", "box");
+formsBox.appendChild(box1);
+const textBoxName = document.createElement("p");
+textBoxName.innerHTML = "Name:";
+box1.appendChild(textBoxName);
+const newName = document.createElement("input");
+box1.appendChild(newName);
+newName.setAttribute("placeholder", "Name...");
+newName.setAttribute("class", "newForm");
+
+const box2 = document.createElement("div");
+box2.setAttribute("class", "box");
+formsBox.appendChild(box2);
+const textBoxUID = document.createElement("p");
+textBoxUID.innerHTML = "User ID:";
+box2.appendChild(textBoxUID);
+const newUserID = document.createElement("input");
+box2.appendChild(newUserID);
+newUserID.setAttribute("placeholder", "UserID...");
+newUserID.setAttribute("class", "newForm");
+
+const box3 = document.createElement("div");
+box3.setAttribute("class", "box");
+formsBox.appendChild(box3);
+const textBoxAge = document.createElement("p");
+textBoxAge.innerHTML = "Age:";
+box3.appendChild(textBoxAge);
+const newAge = document.createElement("input");
+box3.appendChild(newAge);
+newAge.setAttribute("placeholder", "Age...");
+newAge.setAttribute("class", "newForm");
+
+const man = document.createElement("input");
+formsBox.appendChild(man);
+man.setAttribute("type", "radio");
+
+const woman = document.createElement("input");
+formsBox.appendChild(woman);
+woman.setAttribute("type", "radio");
+
+function newID() {
+	const newID = db.length + 1;
+	return newID;
+}
+newID();
+
+const sendData = () => {
+	if (newName.value.length >= 3) {
+		const newObj = db.push({
+			id: newID(),
+			name: newName.value,
+			uId: parseInt(newUserID.value),
+			age: parseInt(newAge.value),
+		});
+	} else {
+		alert("Man, newName is too short.");
+	}
+
+	newName.value = "";
+	newUserID.value = "";
+	newAge.value = "";
+
+	console.log(db);
+};
+
+submitInput.addEventListener("click", sendData);
+console.log(db);
+
 document.body.appendChild(forms);
 forms.appendChild(submitInput);
 forms.setAttribute("class", "forms");
@@ -152,43 +217,3 @@ submitInput.setAttribute("type", "submit");
 // submitInput.setAttribute("class", "submitData");
 submitInput.setAttribute("value", "Send Data");
 submitInput.setAttribute("name", "name");
-
-const newName = document.createElement("input");
-forms.appendChild(newName);
-newName.setAttribute("placeholder", "Name...");
-newName.setAttribute("class", "newForm");
-
-const newUserID = document.createElement("input");
-forms.appendChild(newUserID);
-newUserID.setAttribute("placeholder", "UserID...");
-newUserID.setAttribute("class", "newForm");
-
-const newAge = document.createElement("input");
-forms.appendChild(newAge);
-newAge.setAttribute("placeholder", "Age...");
-newAge.setAttribute("class", "newForm");
-
-const man = document.createElement("input");
-forms.appendChild(man);
-man.setAttribute("type", "radio");
-
-const woman = document.createElement("input");
-forms.appendChild(woman);
-woman.setAttribute("type", "radio");
-
-const sendData = () => {
-	const newObj = db.push({
-		name: newName.value,
-		uId: parseInt(newUserID.value),
-		age: parseInt(newAge.value),
-	});
-	// db.push({ sex: newSex.value });
-	newName.value = "";
-	newUserID.value = "";
-	newAge.value = "";
-	localStorage.getItem(newObj);
-
-	console.log(db);
-};
-submitInput.addEventListener("click", sendData);
-console.log(db);
