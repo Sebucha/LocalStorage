@@ -11,7 +11,22 @@ const setData = data =>
 	window.localStorage.setItem("APIdata", JSON.stringify(data));
 const getData = key => JSON.parse(window.localStorage.getItem(key));
 
-setData(db);
+const demoData = () => {
+	setData(db);
+};
+const clearData = () => {
+	window.localStorage.clear();
+};
+
+const demoDataBtn = document.createElement("button");
+document.body.appendChild(demoDataBtn);
+demoDataBtn.innerHTML = "Demo Data";
+demoDataBtn.addEventListener("click", demoData);
+
+const clearDataBtn = document.createElement("button");
+document.body.appendChild(clearDataBtn);
+clearDataBtn.innerHTML = "Clear Data";
+clearDataBtn.addEventListener("click", clearData);
 
 // Global flag for loading state to be represented in HTML
 let isLoading = false;
@@ -37,7 +52,9 @@ Subject.prototype = {
 
 const subject = new Subject();
 
-function Observer1() {}
+function Observer1() {
+	
+}
 subject.subscribe(Observer1);
 subject.fire();
 
