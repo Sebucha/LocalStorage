@@ -52,9 +52,7 @@ Subject.prototype = {
 
 const subject = new Subject();
 
-function Observer1() {
-	
-}
+function Observer1() {}
 subject.subscribe(Observer1);
 subject.fire();
 
@@ -110,7 +108,7 @@ const createRow = ({ id, name, uId, age, sex, isDeletable = false }) => {
 
 	if (isDeletable) {
 		// DeleteRow doesn't neet to exist in the upper scope
-		function deleteRow(i) {
+		function deleteRow() {
 			let row = document.getElementById(id);
 			tbody.removeChild(row);
 			console.log(localStorage.removeItem("APIdata"));
