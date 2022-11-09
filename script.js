@@ -93,10 +93,10 @@ const createRow = ({ id, name, uId, age, sex, isDeletable = false }) => {
 
 	if (isDeletable) {
 		// DeleteRow doesn't neet to exist in the upper scope
-		function deleteRow() {
+		function deleteRow(i) {
 			let row = document.getElementById(id);
 			tbody.removeChild(row);
-			localStorage.removeItem(id);
+			console.log(localStorage.removeItem("APIdata"));
 		}
 
 		let deleteButton = document.createElement("button");
@@ -138,83 +138,133 @@ const submitInput = document.createElement("input");
 
 const formsBox = document.createElement("div");
 forms.appendChild(formsBox);
+
 formsBox.setAttribute("class", "formsBox");
-
 const box1 = document.createElement("div");
-box1.setAttribute("class", "box");
-formsBox.appendChild(box1);
-const textBoxName = document.createElement("p");
-textBoxName.innerHTML = "Name:";
-box1.appendChild(textBoxName);
-const newName = document.createElement("input");
-box1.appendChild(newName);
-newName.setAttribute("placeholder", "Name...");
-newName.setAttribute("class", "newForm");
-
 const box2 = document.createElement("div");
-box2.setAttribute("class", "box");
-formsBox.appendChild(box2);
-const textBoxUID = document.createElement("p");
-textBoxUID.innerHTML = "User ID:";
-box2.appendChild(textBoxUID);
-const newUserID = document.createElement("input");
-box2.appendChild(newUserID);
-newUserID.setAttribute("placeholder", "UserID...");
-newUserID.setAttribute("class", "newForm");
-
 const box3 = document.createElement("div");
-box3.setAttribute("class", "box");
-formsBox.appendChild(box3);
+const box4 = document.createElement("div");
+const box5 = document.createElement("div");
+const box6 = document.createElement("div");
+
+const textBoxName = document.createElement("p");
+const textBoxUID = document.createElement("p");
 const textBoxAge = document.createElement("p");
-textBoxAge.innerHTML = "Age:";
-box3.appendChild(textBoxAge);
+const textBoxSex = document.createElement("p");
+const textBoxMan = document.createElement("p");
+const textBoxWoman = document.createElement("p");
+
+const newName = document.createElement("input");
+const newUserID = document.createElement("input");
 const newAge = document.createElement("input");
+const man = document.createElement("input");
+const woman = document.createElement("input");
+
+formsBox.appendChild(box1);
+formsBox.appendChild(box2);
+formsBox.appendChild(box3);
+formsBox.appendChild(box4);
+formsBox.appendChild(box5);
+formsBox.appendChild(box6);
+
+box1.setAttribute("class", "box");
+box2.setAttribute("class", "box");
+box3.setAttribute("class", "box");
+box4.setAttribute("class", "box");
+box5.setAttribute("class", "box");
+box6.setAttribute("class", "box");
+
+box1.appendChild(textBoxName);
+box1.appendChild(newName);
+box2.appendChild(textBoxUID);
+box2.appendChild(newUserID);
+box3.appendChild(textBoxAge);
 box3.appendChild(newAge);
+box4.appendChild(textBoxSex);
+box5.appendChild(textBoxMan);
+box5.appendChild(man);
+box6.appendChild(textBoxWoman);
+box6.appendChild(woman);
+
+textBoxName.innerHTML = "Name:";
+textBoxUID.innerHTML = "User ID:";
+textBoxAge.innerHTML = "Age:";
+textBoxSex.innerHTML = "Sex:";
+textBoxMan.innerHTML = "Man:";
+textBoxWoman.innerHTML = "Woman:";
+
+newName.setAttribute("placeholder", "Name...");
+newUserID.setAttribute("placeholder", "UserID...");
 newAge.setAttribute("placeholder", "Age...");
+newName.setAttribute("class", "newForm");
+newUserID.setAttribute("class", "newForm");
 newAge.setAttribute("class", "newForm");
 
-const box4 = document.createElement("div");
-box4.setAttribute("class", "box");
-formsBox.appendChild(box4);
-const textBoxSex = document.createElement("p");
-textBoxSex.innerHTML = "Sex:";
-box4.appendChild(textBoxSex);
-
-const box5 = document.createElement("div");
-box5.setAttribute("class", "box");
-formsBox.appendChild(box5);
-const textBoxMan = document.createElement("p");
-textBoxMan.innerHTML = "Man:";
-box5.appendChild(textBoxMan);
-const man = document.createElement("input");
-formsBox.appendChild(man);
 man.setAttribute("type", "radio");
 man.setAttribute("value", "Man");
 man.setAttribute("class", "newForm");
 
-const woman = document.createElement("input");
-formsBox.appendChild(woman);
 woman.setAttribute("type", "radio");
 woman.setAttribute("value", "Woman");
 
-function checkSex() {
+//TODO
+const checkSex = () => {
 	if (man.checked) {
 		return man.value;
 	} else if (woman.checked) {
 		return woman.value;
 	}
-}
+};
+const newID = () => {
+	return db.length + 1;
+};
 
-function newID() {
-	const newID = db.length + 1;
-	return newID;
-}
-newID();
+const resetData = () => {
+	if (confirm("Do you wanna clear forms?")) {
+		newName.value = "";
+		newUserID.value = "";
+		newAge.value = "";
+		newUserID.style.backgroundColor = "white";
+		newAge.style.backgroundColor = "white";
+	}
+};
+//resetData btn
+const resetBtn = document.createElement("button");
+forms.appendChild(resetBtn);
+resetBtn.innerHTML = "Reset Data";
+resetBtn.addEventListener("click", resetData);
+
+//validation
+const isNumber = valueToCheck => {
+	return !isNaN(valueToCheck);
+};
+
+newUserID.onkeyup = function () {
+	if (!isNumber(this.value)) {
+		this.style.backgroundColor = "red";
+		alert("only numbers");
+	} else {
+		this.style.backgroundColor = "green";
+	}
+};
+
+newAge.onkeyup = function () {
+	if (!isNumber(this.value)) {
+		this.style.backgroundColor = "red";
+		alert("only numbers");
+	} else {
+		this.style.backgroundColor = "green";
+	}
+};
 
 const sendData = () => {
 	tbody.innerHTML = "";
-	if (newName.value.length >= 3) {
-		const newObj = db.push({
+	if (
+		newName.value.length >= 3 &&
+		newAge.value <= 100 &&
+		newUserID.value.length <= 6
+	) {
+		db.push({
 			id: newID(),
 			name: newName.value,
 			uId: parseInt(newUserID.value),
@@ -222,14 +272,15 @@ const sendData = () => {
 			sex: checkSex(),
 		});
 	} else {
-		alert("Man, newName is too short.");
+		alert("Man, newName is too short or you added bad USER ID.");
 	}
 
-	newName.value = "";
-	newUserID.value = "";
-	newAge.value = "";
+	// const initDB = data =>
+	// 	window.localStorage.setItem("nextUser", JSON.stringify(data));
+	// const getinitDB = key => JSON.parse(window.localStorage.getItem(key));
 
-	console.log(db);
+	// initDB(db);
+
 	setData(db);
 	getData("APIdata")
 		.map(element => createRow({ ...element, isDeletable: true }))
@@ -248,4 +299,12 @@ forms.setAttribute("class", "forms");
 submitInput.setAttribute("type", "submit");
 // submitInput.setAttribute("class", "submitData");
 submitInput.setAttribute("value", "Send Data");
-submitInput.setAttribute("name", "name");
+
+//TODO
+/*
+refresh website
+use API
+use saved state
+validation 
+*cypress
+*/
