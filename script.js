@@ -1,7 +1,5 @@
 import db, { getAdults } from "./db.js";
 
-// import observable from "./newObserver"
-
 let dataTable = document.getElementById("dataTable");
 let thead = document.createElement("thead");
 let tbody = document.createElement("tbody");
@@ -10,7 +8,6 @@ let tbody = document.createElement("tbody");
 const setData = data =>
 	window.localStorage.setItem("APIdata", JSON.stringify(data));
 const getData = key => JSON.parse(window.localStorage.getItem(key));
-
 const demoData = () => {
 	setData(db);
 };
@@ -67,7 +64,6 @@ const fetchData = async () => {
 	} finally {
 		isLoading = false;
 	}
-
 	/*getAdults()
 		.then(response => {
 			console.log(response);
@@ -111,7 +107,9 @@ const createRow = ({ id, name, uId, age, sex, isDeletable = false }) => {
 		function deleteRow() {
 			let row = document.getElementById(id);
 			tbody.removeChild(row);
-			console.log(localStorage.removeItem("APIdata"));
+
+			const filtered = db.filter(element => element.id !== id);
+			localStorage.setItem("APIdata", JSON.stringify(filtered));
 		}
 
 		let deleteButton = document.createElement("button");
@@ -175,19 +173,13 @@ const newAge = document.createElement("input");
 const man = document.createElement("input");
 const woman = document.createElement("input");
 
-formsBox.appendChild(box1);
-formsBox.appendChild(box2);
-formsBox.appendChild(box3);
-formsBox.appendChild(box4);
-formsBox.appendChild(box5);
-formsBox.appendChild(box6);
+[box1, box2, box3, box4, box5, box6].forEach(element =>
+	formsBox.appendChild(element)
+);
 
-box1.setAttribute("class", "box");
-box2.setAttribute("class", "box");
-box3.setAttribute("class", "box");
-box4.setAttribute("class", "box");
-box5.setAttribute("class", "box");
-box6.setAttribute("class", "box");
+[box1, box2, box3, box4, box5, box6].forEach(element =>
+	element.setAttribute("class", "box")
+);
 
 box1.appendChild(textBoxName);
 box1.appendChild(newName);
