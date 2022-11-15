@@ -1,5 +1,13 @@
 import db, { getAdults } from "./db.js";
 
+// fetch("https://jsonplaceholder.typicode.com/users"){
+//method: "POST",
+//body: JSON.stringify({id:, name:}),
+//header:
+//{'content-type: 'application/json; charset=UTF-8}}
+// 	.then(response => response.json())
+// 	.then(json => console.log(json));
+
 let dataTable = document.getElementById("dataTable");
 let thead = document.createElement("thead");
 let tbody = document.createElement("tbody");
@@ -10,9 +18,11 @@ const setData = data =>
 const getData = key => JSON.parse(window.localStorage.getItem(key));
 const demoData = () => {
 	setData(db);
+	window.location.reload();
 };
 const clearData = () => {
 	window.localStorage.clear();
+	window.location.reload();
 };
 
 const demoDataBtn = document.createElement("button");
@@ -104,16 +114,18 @@ const createRow = ({ id, name, uId, age, sex, isDeletable = false }) => {
 
 	if (isDeletable) {
 		// DeleteRow doesn't neet to exist in the upper scope
-		function deleteRow() {
+		function deleteRow(e) {
 			let row = document.getElementById(id);
 			tbody.removeChild(row);
-
-			const filtered = db.filter(element => element.id !== id);
+			const temp = JSON.parse(localStorage.getItem("APIdata"));
+			const filtered = temp.filter(
+				element => element.id !== parseInt(e.target.parentNode.id)
+			);
 			localStorage.setItem("APIdata", JSON.stringify(filtered));
 		}
 
 		let deleteButton = document.createElement("button");
-		deleteButton.addEventListener("click", deleteRow);
+		deleteButton.addEventListener("click", e => deleteRow(e));
 		deleteButton.innerHTML = "x";
 		row.appendChild(deleteButton);
 	}
@@ -265,7 +277,6 @@ newAge.onkeyup = function () {
 };
 
 const sendData = () => {
-	tbody.innerHTML = "";
 	if (
 		newName.value.length >= 3 &&
 		newAge.value <= 100 &&
@@ -282,18 +293,8 @@ const sendData = () => {
 		alert("Man, newName is too short or you added bad USER ID.");
 	}
 
-	// const initDB = data =>
-	// 	window.localStorage.setItem("nextUser", JSON.stringify(data));
-	// const getinitDB = key => JSON.parse(window.localStorage.getItem(key));
-
-	// initDB(db);
-
-	setData(db);
-	getData("APIdata")
-		.map(element => createRow({ ...element, isDeletable: true }))
-		.forEach(row => {
-			tbody.appendChild(row);
-		});
+	localStorage.setItem("APIdata", JSON.stringify(db));
+	window.location.reload();
 };
 
 submitInput.addEventListener("click", sendData);
