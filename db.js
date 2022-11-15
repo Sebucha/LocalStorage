@@ -47,4 +47,33 @@ export const getAdults = () => {
 	});
 };
 
+// async function getUsers() {
+// 	let url = "https://jsonplaceholder.typicode.com/users";
+// 	try {
+// 		let res = await fetch(url);
+// 		return await res.json();
+// 	} catch (error) {
+// 		console.log(error);
+// 	}
+// }
+
+// async function renderUser() {
+// 	let users = await getUsers();
+// 	// console.log(users);
+// 	// console.log(...users)
+
+// 	let usersNames = [];
+// 	usersNames = users.map(user => `${user.name}`);
+
+// 	let filtered = users.filter(user => user.name);
+// 	console.log(filtered);
+// 	// console.log(usersNames);
+
+// 	users.forEach(user => {
+// 		user.map(user => `${user.name}`);
+// 		// db.push(user.name);
+		
+// 	});
+// }
+// renderUser();
 export default db;

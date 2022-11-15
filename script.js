@@ -1,6 +1,12 @@
 import db, { getAdults } from "./db.js";
 
-// import observable from "./newObserver"
+// fetch("https://jsonplaceholder.typicode.com/users"){
+//method: "POST",
+//body: JSON.stringify({id:, name:}),
+//header:
+//{'content-type: 'application/json; charset=UTF-8}}
+// 	.then(response => response.json())
+// 	.then(json => console.log(json));
 
 let dataTable = document.getElementById("dataTable");
 let thead = document.createElement("thead");
@@ -10,8 +16,24 @@ let tbody = document.createElement("tbody");
 const setData = data =>
 	window.localStorage.setItem("APIdata", JSON.stringify(data));
 const getData = key => JSON.parse(window.localStorage.getItem(key));
+const demoData = () => {
+	setData(db);
+	window.location.reload();
+};
+const clearData = () => {
+	window.localStorage.clear();
+	window.location.reload();
+};
 
-setData(db);
+const demoDataBtn = document.createElement("button");
+document.body.appendChild(demoDataBtn);
+demoDataBtn.innerHTML = "Demo Data";
+demoDataBtn.addEventListener("click", demoData);
+
+const clearDataBtn = document.createElement("button");
+document.body.appendChild(clearDataBtn);
+clearDataBtn.innerHTML = "Clear Data";
+clearDataBtn.addEventListener("click", clearData);
 
 // Global flag for loading state to be represented in HTML
 let isLoading = false;
@@ -52,7 +74,6 @@ const fetchData = async () => {
 	} finally {
 		isLoading = false;
 	}
-
 	/*getAdults()
 		.then(response => {
 			console.log(response);
@@ -93,14 +114,18 @@ const createRow = ({ id, name, uId, age, sex, isDeletable = false }) => {
 
 	if (isDeletable) {
 		// DeleteRow doesn't neet to exist in the upper scope
-		function deleteRow(i) {
+		function deleteRow(e) {
 			let row = document.getElementById(id);
 			tbody.removeChild(row);
-			console.log(localStorage.removeItem("APIdata"));
+			const temp = JSON.parse(localStorage.getItem("APIdata"));
+			const filtered = temp.filter(
+				element => element.id !== parseInt(e.target.parentNode.id)
+			);
+			localStorage.setItem("APIdata", JSON.stringify(filtered));
 		}
 
 		let deleteButton = document.createElement("button");
-		deleteButton.addEventListener("click", deleteRow);
+		deleteButton.addEventListener("click", e => deleteRow(e));
 		deleteButton.innerHTML = "x";
 		row.appendChild(deleteButton);
 	}
@@ -160,19 +185,13 @@ const newAge = document.createElement("input");
 const man = document.createElement("input");
 const woman = document.createElement("input");
 
-formsBox.appendChild(box1);
-formsBox.appendChild(box2);
-formsBox.appendChild(box3);
-formsBox.appendChild(box4);
-formsBox.appendChild(box5);
-formsBox.appendChild(box6);
+[box1, box2, box3, box4, box5, box6].forEach(element =>
+	formsBox.appendChild(element)
+);
 
-box1.setAttribute("class", "box");
-box2.setAttribute("class", "box");
-box3.setAttribute("class", "box");
-box4.setAttribute("class", "box");
-box5.setAttribute("class", "box");
-box6.setAttribute("class", "box");
+[box1, box2, box3, box4, box5, box6].forEach(element =>
+	element.setAttribute("class", "box")
+);
 
 box1.appendChild(textBoxName);
 box1.appendChild(newName);
@@ -258,7 +277,6 @@ newAge.onkeyup = function () {
 };
 
 const sendData = () => {
-	tbody.innerHTML = "";
 	if (
 		newName.value.length >= 3 &&
 		newAge.value <= 100 &&
@@ -275,18 +293,8 @@ const sendData = () => {
 		alert("Man, newName is too short or you added bad USER ID.");
 	}
 
-	// const initDB = data =>
-	// 	window.localStorage.setItem("nextUser", JSON.stringify(data));
-	// const getinitDB = key => JSON.parse(window.localStorage.getItem(key));
-
-	// initDB(db);
-
-	setData(db);
-	getData("APIdata")
-		.map(element => createRow({ ...element, isDeletable: true }))
-		.forEach(row => {
-			tbody.appendChild(row);
-		});
+	localStorage.setItem("APIdata", JSON.stringify(db));
+	window.location.reload();
 };
 
 submitInput.addEventListener("click", sendData);
