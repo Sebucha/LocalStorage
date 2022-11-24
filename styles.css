@@ -106,7 +106,6 @@ label {
 	justify-content: start;
 	text-align: center;
 	align-items: center;
-	width: 100%;
 	padding: 1em;
 }
 .newForm {
@@ -121,11 +120,31 @@ label {
 
 .box {
 	display: flex;
+	padding: 10px;
 }
 
 .formsBox {
 	position: relative;
 	display: flex;
-	flex-direction: column;
+	/* flex-direction: column; */
 	margin: auto;
+	background-color: #dddddd;
+	border-radius: 10px;
+	box-shadow: 0 0 10px rgba(0, 0, 0, 0.3);
+}
+.box input {
+	background: #f3f3f3;
+	border-radius: 5px;
+	border: 1px solid black;
+}
+.btnStyles {
+	line-height: 20px;
+	height: 25px;
+	text-align: center;
+	width: 100px;
+	cursor: pointer;
+	background-color: #dddddd;
+	border: 1px solid #f3f3f3;
+	font-size: 1rem;
+	border-radius: 5px;
 }

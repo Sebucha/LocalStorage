@@ -29,11 +29,13 @@ const demoDataBtn = document.createElement("button");
 document.body.appendChild(demoDataBtn);
 demoDataBtn.innerHTML = "Demo Data";
 demoDataBtn.addEventListener("click", demoData);
+demoDataBtn.setAttribute("class", "btnStyles");
 
 const clearDataBtn = document.createElement("button");
 document.body.appendChild(clearDataBtn);
 clearDataBtn.innerHTML = "Clear Data";
 clearDataBtn.addEventListener("click", clearData);
+clearDataBtn.setAttribute("class", "btnStyles");
 
 // Global flag for loading state to be represented in HTML
 let isLoading = false;
@@ -156,8 +158,6 @@ const createTableInnerElements = () => {
 
 createTableInnerElements();
 
-//CREATING FORMS
-
 const forms = document.createElement("div");
 const submitInput = document.createElement("input");
 
@@ -168,14 +168,12 @@ formsBox.setAttribute("class", "formsBox");
 const box1 = document.createElement("div");
 const box2 = document.createElement("div");
 const box3 = document.createElement("div");
-const box4 = document.createElement("div");
 const box5 = document.createElement("div");
 const box6 = document.createElement("div");
 
 const textBoxName = document.createElement("p");
 const textBoxUID = document.createElement("p");
 const textBoxAge = document.createElement("p");
-const textBoxSex = document.createElement("p");
 const textBoxMan = document.createElement("p");
 const textBoxWoman = document.createElement("p");
 
@@ -185,11 +183,11 @@ const newAge = document.createElement("input");
 const man = document.createElement("input");
 const woman = document.createElement("input");
 
-[box1, box2, box3, box4, box5, box6].forEach(element =>
+[box1, box2, box3, box5, box6].forEach(element =>
 	formsBox.appendChild(element)
 );
 
-[box1, box2, box3, box4, box5, box6].forEach(element =>
+[box1, box2, box3, box5, box6].forEach(element =>
 	element.setAttribute("class", "box")
 );
 
@@ -199,7 +197,6 @@ box2.appendChild(textBoxUID);
 box2.appendChild(newUserID);
 box3.appendChild(textBoxAge);
 box3.appendChild(newAge);
-box4.appendChild(textBoxSex);
 box5.appendChild(textBoxMan);
 box5.appendChild(man);
 box6.appendChild(textBoxWoman);
@@ -208,7 +205,6 @@ box6.appendChild(woman);
 textBoxName.innerHTML = "Name:";
 textBoxUID.innerHTML = "User ID:";
 textBoxAge.innerHTML = "Age:";
-textBoxSex.innerHTML = "Sex:";
 textBoxMan.innerHTML = "Man:";
 textBoxWoman.innerHTML = "Woman:";
 
@@ -226,7 +222,6 @@ man.setAttribute("class", "newForm");
 woman.setAttribute("type", "radio");
 woman.setAttribute("value", "Woman");
 
-//TODO
 const checkSex = () => {
 	if (man.checked) {
 		return man.value;
@@ -247,13 +242,12 @@ const resetData = () => {
 		newAge.style.backgroundColor = "white";
 	}
 };
-//resetData btn
 const resetBtn = document.createElement("button");
 forms.appendChild(resetBtn);
 resetBtn.innerHTML = "Reset Data";
 resetBtn.addEventListener("click", resetData);
+resetBtn.setAttribute("class", "btnStyles");
 
-//validation
 const isNumber = valueToCheck => {
 	return !isNaN(valueToCheck);
 };
@@ -295,24 +289,15 @@ const sendData = () => {
 
 	localStorage.setItem("APIdata", JSON.stringify(db));
 	window.location.reload();
+	console.log(db);
 };
 
 submitInput.addEventListener("click", sendData);
-console.log(db);
 
 document.body.appendChild(forms);
 forms.appendChild(submitInput);
 forms.setAttribute("class", "forms");
 
 submitInput.setAttribute("type", "submit");
-// submitInput.setAttribute("class", "submitData");
+submitInput.setAttribute("class", "btnStyles");
 submitInput.setAttribute("value", "Send Data");
-
-//TODO
-/*
-refresh website
-use API
-use saved state
-validation 
-*cypress
-*/
